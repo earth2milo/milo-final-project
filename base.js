@@ -59,16 +59,7 @@ landscape();
 
 function myTree() {
 
-push();
-ambientLight(255);
-noStroke();
-translate(0,0,200);
-//translate(x*scale,y*scale,terrain[y][x]);
-//translate()
-rotateZ(600);
-ambientMaterial(255,0,255);
-model(trees);
-pop();
+
                   }
 
 function landscape() {
@@ -80,7 +71,7 @@ function landscape() {
   background(11,13,250); 
   stroke(0);
   fill(23,250,23);
-  rotateX(PI/2.2); // my rotation of 60 degrees 
+  rotateX(PI/2.3); // my rotation of 60 degrees 
   translate(-w/2,-h/2); // moving my canvas to fit the grid fully
 
   let yoff=flying;
@@ -100,8 +91,19 @@ yoff += 0.1;
       beginShape(TRIANGLE_STRIP); // theses 2 for loops create a perfect grid
     
   for(let x=0; x < cols; x++) {
-    if(terrain[y][x]>=25) {
-//myTree();
+    if(terrain[y][x]>=37) {
+push();
+ambientLight(255);
+noStroke();
+translate(-300,-300,0);
+translate(x*scale,y*scale,-terrain[y][x]);
+//translate()
+//rotateX(30);
+rotateY(200);
+rotateZ(300);
+ambientMaterial(242,111,119);
+model(trees);
+pop();
     }
       vertex(x*scale,y*scale, terrain[y][x]); // first variable is x and y, third is Z which will generate the "terrain" or mountains thanks to a random value
       vertex(x*scale,(y+1)*scale,terrain[y+1][x]);
