@@ -1,4 +1,5 @@
 let grass;
+let trees;
 let pg;
 let pg2;
 
@@ -14,25 +15,20 @@ function preload() {
   //spriteSheetTextureG=loadImage('data/sprite_sheet_grinch.png');
   grass = loadImage('data/Grass.png');
   hump = loadImage('data/hump.png');
+  trees = loadModel('data/tree_3d.obj');
 
 }
 
-function grinchPreload() {
 
-
-
-
-
-}
 
 let cols, rows; // colums and rows for building my grid
 let scale = 20; // my constant
 let w = 1400; // I fill more than the screen size because of how the 3d rendering functions with 2d drawings
 let h = 1400;
 
-let flying = 0;
+let flying = 0; // my variable for the flying illusion
 
-let terrain = []; // my array that will nest more arrays within it
+let terrain = []; // my array that will nest  2 more arrays within it
 
 function setup() {
   createCanvas(800, 800, WEBGL); // set 800x800 window size to converse performance on all devices when rendering WEB GL
@@ -52,52 +48,71 @@ function setup() {
 // link:https://www.youtube.com/watch?v=IKB1hWWedMk
 
 function draw() {
-  if (frameCount <= 1800) {
-    flying -= 0.1;
-  }
-
-
-  background(11, 13, 250);
-  //stroke(23,250,23);
-  stroke(0);
-  fill(23, 250, 118);
-  rotateX(PI / 2.15); // my rotation of 60 degrees 
-  translate(-w / 2, -h / 2); // moving my canvas to fit the grid fully
-
-  let yoff = flying;
-  for (let y = 0; y < rows; y++) {
-    let xoff = 0;
-    terrain[y] = [];
-    for (let x = 0; x < cols; x++) {
-      //terrain[y][x]= random(-10,10);
-      terrain[y][x] = map(noise(xoff, yoff), 0, 1, -10, 30); // my noise function essentially will help my terrain look more "organic" as one random value will be surrounded by related value and so forth.
-
-      xoff += 0.1; // to make my perlin noise values more structued, i make a xoff and yoff values to help structure the terrain consistently
-    }
-    yoff += 0.1;
-  }
-
-  for (let y = 0; y < rows - 1; y++) { // double for loops for rows and columns
-    //texture(grass);
-    //specularMaterial(20);
-    //fill("#4B8740");
-    //createGraphics(600,600,WEBGL);
-    beginShape(TRIANGLE_STRIP); // theses 2 for loops create a perfect grid
-    for (let x = 0; x < cols; x++) {
-//fill(23,250,23);
-      vertex(x * scale, y * scale, terrain[y][x]); // first variable is x and y, third is Z which will generate the "terrain" or mountains thanks to a random value
-
-     vertex(x * scale, (y + 1) * scale, terrain[y + 1][x]);
-
-
-
-    }
-    endShape();
-  }
-
+background(11, 13, 250); 
+//myTree();
+landscape();
 
 }
 
+
+
+
+function myTree() {
+
+push();
+ambientLight(255);
+noStroke();
+translate(0,0,200);
+//translate(x*scale,y*scale,terrain[y][x]);
+//translate()
+rotateZ(600);
+ambientMaterial(255,0,255);
+model(trees);
+pop();
+                  }
+
+function landscape() {
+
+//if(frameCount>=300) {
+  flying-=0.1;
+ // }
+
+  background(11,13,250); 
+  stroke(0);
+  fill(23,250,23);
+  rotateX(PI/2.2); // my rotation of 60 degrees 
+  translate(-w/2,-h/2); // moving my canvas to fit the grid fully
+
+  let yoff=flying;
+for(let y=0; y < rows; y++) { 
+let xoff = 0; 
+  terrain[y]=[];
+for(let x=0; x < cols; x++) {
+  //terrain[y][x]= random(-10,10);
+  terrain[y][x]= map(noise(xoff,yoff),0,1,-5,50); // my noise function essentially will help my terrain look more "organic" as one random value will be surrounded by related value and so forth.
+xoff += 0.1; // to make my perlin noise values more structued, i make a xoff and yoff values to help structure the terrain consistently
+}
+yoff += 0.1;
+}
+
+  for(let y=0; y < rows-1; y++) { // double for loops for rows and columns
+    
+      beginShape(TRIANGLE_STRIP); // theses 2 for loops create a perfect grid
+    
+  for(let x=0; x < cols; x++) {
+    if(terrain[y][x]>=25) {
+//myTree();
+    }
+      vertex(x*scale,y*scale, terrain[y][x]); // first variable is x and y, third is Z which will generate the "terrain" or mountains thanks to a random value
+      vertex(x*scale,(y+1)*scale,terrain[y+1][x]);
+
+
+
+    }
+endShape();
+  }
+}
+  
 
 
 
