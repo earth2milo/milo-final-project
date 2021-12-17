@@ -2,11 +2,11 @@ let grass;
 let trees;
 let pg;
 let pg2;
-
+let tick=true;
 const startTimer = 120
 let secs = startTimer;
 let frames = 60;
-
+let alpha=255;
 
 
 
@@ -48,19 +48,19 @@ function setup() {
 // link:https://www.youtube.com/watch?v=IKB1hWWedMk
 
 function draw() {
-background(11, 13, 250); 
-//myTree();
+background(11, 13, 250);
+box(20);
+console.log(frameCount);
+if(frameCount=6000) {
+
 landscape();
+}
 
 }
 
 
 
 
-function myTree() {
-
-
-                  }
 
 function landscape() {
 
@@ -69,7 +69,7 @@ function landscape() {
  // }
 
   background(11,13,250); 
-  stroke(0);
+  stroke(0,alpha);
   fill(23,250,23);
   rotateX(PI/2.3); // my rotation of 60 degrees 
   translate(-w/2,-h/2); // moving my canvas to fit the grid fully
@@ -91,7 +91,7 @@ yoff += 0.1;
       beginShape(TRIANGLE_STRIP); // theses 2 for loops create a perfect grid
     
   for(let x=0; x < cols; x++) {
-    if(terrain[y][x]>=37) {
+    if(terrain[y][x]>=38) {
 push();
 ambientLight(255);
 noStroke();
@@ -99,9 +99,14 @@ translate(-300,-300,0);
 translate(x*scale,y*scale,-terrain[y][x]);
 //translate()
 //rotateX(30);
-rotateY(200);
+rotateY(250);
 rotateZ(300);
+
+if(terrain[y][x]>=40) {
+ambientMaterial(255,245,111); // lorax tree colors!
+  } else {
 ambientMaterial(242,111,119);
+}
 model(trees);
 pop();
     }
