@@ -10,7 +10,7 @@ let alpha=255;
 let sceneTracker=1;
 let gif_loadIntro, gif_createIntro;
 let gif_loadContinued, gif_createContinued;
-let vid;
+let vid, vid2;
 
 
 function preload() {
@@ -23,15 +23,19 @@ function preload() {
   things= loadImage('data/dr_seuss_things.png');
   cat = loadImage('data/dr_seuss_cat.png');
   //gif_loadIntro= loadImage('data/intro.mp4');
-  //gif_createIntro= createImg('data/intro.gif');
+  //gif_createIntro= createImg('data/intro.gif'); // tried to create theses animations as gifs but had issues as the image would only be created on preload and I would not be able to manipulate it. After some research CreateImg is a old p5js DOM element that largely was hard to find documentation and reference for manipulating. So I just switched to learning how to manipulate video
   // gif_loadContinued= loadImage('data/intro_continued.mp4');
    //gif_createContinued= createImg('data/intro_continued.gif');
- vid=createVideo(['data/intro.mp4','data/intro_continued.mp4'],vidLoad);
+vid=createVideo('data/intro_continued.mp4',vidLoad);
+vid.hide();
+vid2=createVideo('data/intro.mp4',vidLoad);
+vid2.hide();
+
 }
 
 function vidLoad() { // callback for my videos
 vid.loop();
-vid.volume();
+vid.volume(0);
 }
 
 
@@ -59,10 +63,11 @@ sceneTracker=0;
 // link:https://www.youtube.com/watch?v=IKB1hWWedMk
 
 function draw() {
-background(11, 13, 250);
 
-vid.size(windowWidth,windowHeight);
-vid.play(); // had trouble with vid.play since browsers like chrome would automatically block it from playing
+
+image(vid,-410,-390);
+console.log(sceneTracker);
+
 
 
 if(sceneTracker === 3) {
@@ -175,6 +180,7 @@ function mousePressed() {
 
 
 }
+
 
 
 
